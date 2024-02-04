@@ -11,7 +11,7 @@ This Django Weather App provides weather information for a given location using 
 # Screenshots-
 
 ## Home
-![Alt Text](screenshot/home.png)
+![Alt Text](screenshot/home_page.png)
 
 ## Detail
 ![Alt Text](url/to/your/screenshot.png)
