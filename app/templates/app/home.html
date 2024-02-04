@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Application</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="justify-center" style="background-image: url('https://images.unsplash.com/photo-1559963110-71b394e7494d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80'); background-repeat: no-repeat; background-size: cover;">
+    <h2 class="text-3xl font-mono mt-5 pb-2 text-center text-black">Weather</h2>
+
+    <div class="mt-2 flex justify-center">
+        <form action="" class="max-w-[480px] w-full" method='POST'>
+            {% csrf_token %}
+            <div class="relative text text-black-300">
+                {{form.search}}
+                <button type="submit">
+                    <svg class="text-teal-400 h-5 w-5 absolute top-2.5 right-3 fill-current"
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+                        x="0px" y="0px" viewBox="0 0 56.966 56.966"
+                        style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve">
+                        <path
+                            d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+                
+
+    
+  
+    {% if exception_occured %}
+    <div class="flex justify-center mt-2">
+        <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md max-w-[480px] w-full" role="alert">
+            <div class="flex">
+              <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+              <div>
+                <p class="font-bold">Error</p>
+                <p class="text-sm">Sorry, Unable to find the weather information.</p>
+              </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endif %}
+    <!-- component -->
+    {% if data %}
+    <div class="w-fulllg:mt-64 lg:px-40 justify-center container mx-auto">
+        <div class="flex flex-wrap w-full lg:w-auto">
+            <div class="w-full lg:w-1/2 flex rounded-lg bg-auto">
+                <div class="rounded-lg py-3 pl-8 pr-32 w-full bg-blue-400 bg-opacity-90 text-white">
+                    <div class="mb-5" >
+                        <h2 class="font-bold text-3xl leading-none pb-1 mt-3">{{data.current_time.0}}</h2>
+                        <h3 class="leading-none pb-2 pl-1 mt-2">{{data.current_time.1}} {{data.current_time.2}}, {{data.current_time.3}}</h3>
+                        <p class="flex aling-center opacity-75"><svg class=" w-4 inline mr-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"  viewBox="0 0 425.963 425.963" style="enable-background:new 0 0 425.963 425.963;" xml:space="preserve" class=""><g><g><path d="M213.285,0h-0.608C139.114,0,79.268,59.826,79.268,133.361c0,48.202,21.952,111.817,65.246,189.081   c32.098,57.281,64.646,101.152,64.972,101.588c0.906,1.217,2.334,1.934,3.847,1.934c0.043,0,0.087,0,0.13-0.002   c1.561-0.043,3.002-0.842,3.868-2.143c0.321-0.486,32.637-49.287,64.517-108.976c43.03-80.563,64.848-141.624,64.848-181.482   C346.693,59.825,286.846,0,213.285,0z M274.865,136.62c0,34.124-27.761,61.884-61.885,61.884   c-34.123,0-61.884-27.761-61.884-61.884s27.761-61.884,61.884-61.884C247.104,74.736,274.865,102.497,274.865,136.62z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#FFFFFF"/></svg>
+                        {{data.city|capfirst}}, {{data.country|capfirst}}
+                        </p>
+                    </div>
+                    <div>
+                        <div class="justify-center">
+                            <img src="{{data.icon}}" alt="Weather Icon" class='w-20 h-20'>
+                        </div>
+
+                        <strong class="leading-none text-6xl block font-weight-bolder">{{data.temp}}ºC</strong>
+                        <b class="text-2xl block font-bold">{{data.desc}}</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-1/2 flex ml-0 ">
+                <div class="lg:my-3 bg-gray-800 text-white p-10 lg:rounded-r-lg w-full bg-opacity-40">
+                    
+                    <div class="flex justify-between w-64 mb-4 w-full">
+                        <div class="w-auto font-medium text-90">Humidity</div><div class="w-auto text-right">{{data.humidity}} %</div>
+                    </div>
+                    
+                    <div class="flex justify-between w-64 mb-4 w-full">
+                        <div class="w-auto font-medium  text-90">Wind</div><div class="w-auto text-right">{{data.wind_speed}} km/h</div>
+                    </div>
+                    
+                    <div class="flex justify-between w-64 mb-4 w-full">
+                        <div class="w-auto font-medium  text-90">Min Temp</div><div class="w-auto text-right">{{data.min_temp}} ºC</div>
+                    </div>
+                    
+                    <div class="flex justify-between w-64 mb-4 w-full">
+                        <div class="w-auto font-medium  text-90">Max Temp</div><div class="w-auto text-right">{{data.max_temp}} ºC</div>
+                    </div>
+                    
+                    <div class="flex justify-between w-64 mb-4 w-full">
+                        <div class="w-auto font-medium  text-90">Visibility</div><div class="w-auto text-right">{{data.visibility}} km/h</div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    </body>
+</html>
